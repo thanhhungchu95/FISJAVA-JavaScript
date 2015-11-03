@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title> Calculator </title>
+		<script type="text/javascript">
+			function start() {
+				var m = document.getElementById('main');
+				addInput(m, 'text', '0', 'result');
+				addInput(m, 'button', 'Reset', 'rs', 'reset()');
+				m.appendChild(document.createElement('br'));
+				for (var i = 1; i < 10; i++) {
+					addInput(m, 'button', new String(i), new String(i), 'add(name)');
+				}
+			}
+
+			function addInput(par, type, value, identity, func) {
+				var v = document.createElement('input');
+				v.setAttribute('type', type);
+				v.setAttribute('value', value);
+				v.setAttribute('id', identity);
+				v.setAttribute('name', identity);
+				v.setAttribute('onClick', func);
+				if (type == 'button' && new Number(identity) % 3 == 1) par.appendChild(document.createElement('br'));
+				par.appendChild(v);
+			}
+		
+			function add(name) {
+				var r = document.getElementById('result');
+				r.value = (new Number(r.value) + new Number(name));
+			}
+
+			function reset() {
+				document.getElementById('result').value = '0';
+			}
+		</script>
+	</head> 
+
+	<body onload="start();">
+		<div id='main' > </div>
+	</body>
+</html>
