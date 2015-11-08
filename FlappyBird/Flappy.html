@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <script type="text/javascript" src="jquery.js"></script>
+        <title>Basic Flappy Bird</title>
+    </head>
+    <body>
+        <div id="main">
+            <div id="bg"></div>
+        </div>
+    </body>
+    
+    <script type="text/javascript">
+        $(function() {
+            var numOfBird = 10;
+            
+            $("#bg").css("width", "100%").css("height", "600px")
+                    .css("background-image", "url(background.png")
+                    .css("background-size", "900px 600px");
+            
+            Bird = function(x, y) {
+                var bird = $('<div id="bird"><img src="bird.png" width="50%"></div>');
+               
+                bird.css("position", "fixed")
+                    .css("left", x+"px")
+                    .css("top", y+"px");
+               
+                bird.attr("x",x)
+                    .attr("y",y);
+                
+                $("#bg").append(bird);
+                
+                return bird;
+            }
+           
+            var birds = [];
+            for (var i = 0; i < numOfBird; i++) {
+                var x = rand(1250);
+                var y = rand(300);
+                birds[i] = Bird(x, y);
+                addEven(birds[i], i);
+            }
+            
+            function rand(num) {
+                return Math.floor((Math.random()*num)+1);
+            }
+            
+            function lose() {
+                for (var i = 0; i < numOfBird; i++) {
+                    var temp = parseInt(birds[i].attr("y"));
+                    
+                    if (temp > 550) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            function moveBird(i,pos) {
+                var newY = parseInt(birds[i].attr("y")) + pos;
+                if (newY < 0) newY = 0;
+                birds[i].css("top", newY+"px");
+                birds[i].attr("y", newY);
+            }
+            
+            function addEven(bird, i) {
+                $(bird).click(function() {
+                    moveBird(i, -100);
+                });
+            }
+            
+            setInterval(function() {
+                for (var i = 0; i < numOfBird; i++) {
+                    moveBird(i, 25);
+                }
+                
+                if (lose() == true) $("div").text("LOSE");
+            },500);
+        })
+    </script>
+</html>
